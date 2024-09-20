@@ -1,4 +1,4 @@
-import { TimeTypes } from "../utils/enums";
+import { TimeType } from "./enums";
 
 export class BanDate extends Date {
     /**
@@ -7,21 +7,26 @@ export class BanDate extends Date {
      * @returns Returns ban date with the added time.
      */
     public async addTime(timeToAdd: string, initDate: Date): Promise<Date> {
-        let filteredValues = timeToAdd.split('/[0-9]+(?:s|mo|m|h|d|w|y)/g')
-        let banDate = initDate;
+        const regex = new RegExp('[0-9]+(s|mo|m|h|d|w|y)', 'g')
+
+        let filteredValues = timeToAdd.match(regex)
+        let banDate = initDate
+
+        if (!filteredValues) throw new Error('Valor Inválido.')
+
         for (let index = 0; index < filteredValues.length; index++) {
             const value = filteredValues[index];
-            let banTimeValue = value?.match('/[0-9]+/g')?.at(0)
-            let banTimeType = value?.match('/(?:s|mo|m|h|d|w|y)/')?.at(0)
+
+            let banTimeValue = value?.match(/[0-9]+/g)?.[0]
+            let banTimeType = value?.match(/(?:s|mo|m|h|d|w|y)/)?.[0]
+
             if (!banTimeValue || !banTimeType) throw new Error('Valor Inválido.')
-            let matchedTimeType = await this.matchTimeType(banTimeType)
-            if (matchedTimeType === 'default') throw new Error('Valor Inválido')
-            await this.addTimeType[matchedTimeType](banDate, Number.parseInt(banTimeValue))
+
+            const addTime = this.addTimebyType[banTimeType]
+            if (!addTime) throw new Error('Valor Inválido.')
+            addTime(banDate, Number.parseInt(banTimeValue));
         }
         return banDate
-    }
-    private async matchTimeType(userInputTimeType: string) {
-        return TimeTypes[userInputTimeType as keyof typeof TimeTypes]
     }
     private async addYears(date: Date, years: number) {
         date.setUTCFullYear(date.getUTCFullYear() + years)
@@ -44,13 +49,13 @@ export class BanDate extends Date {
     private async addSeconds(date: Date, seconds: number) {
         date.setUTCSeconds(date.getUTCSeconds() + seconds)
     }
-    private addTimeType = {
-        [TimeTypes.SECONDS]: this.addSeconds,
-        [TimeTypes.MINUTES]: this.addMinutes,
-        [TimeTypes.HOURS]: this.addHours,
-        [TimeTypes.DAYS]: this.addDays,
-        [TimeTypes.WEEKS]: this.addWeeks,
-        [TimeTypes.MONTHS]: this.addMonths,
-        [TimeTypes.YEARS]: this.addYears
+    private addTimebyType: Record<string, Function> = {
+        s : this.addSeconds,
+        m : this.addMinutes,
+        h : this.addHours,
+        d : this.addDays,
+        w : this.addWeeks,
+        mo : this.addMonths,
+        y : this.addYears
     }
 }
