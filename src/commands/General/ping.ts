@@ -11,7 +11,7 @@ export const data: CommandData = {
 
 export const run = async ({ interaction }: SlashCommandProps) => {
   await interaction.deferReply({ ephemeral: true })
-  interaction.reply('Pong!');
+  interaction.editReply('Pong!');
 };
 
 export const options: CommandOptions = {
