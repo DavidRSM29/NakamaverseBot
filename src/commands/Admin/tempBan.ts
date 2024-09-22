@@ -30,6 +30,6 @@ export const options: CommandOptions = {
 }
 
 export const run = async ({ interaction, client, handler }: SlashCommandProps) => {
-    interaction.reply({ content: 'Procesando el comando...' })
+    await interaction.deferReply({ ephemeral: true })
     await new TempBan().tempban(interaction)
 };
