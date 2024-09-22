@@ -1,4 +1,4 @@
-export enum TimeTypes {
+export enum TimeType {
     SECONDS = 's',
     MINUTES = 'm',
     HOURS = 'h',
