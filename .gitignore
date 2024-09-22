@@ -2,3 +2,5 @@ node_modules/
 .commandkit/
 dist/
 .env
+.example.env
+.devcontainer/devcontainer.json
