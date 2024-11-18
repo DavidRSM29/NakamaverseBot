@@ -1,18 +1,20 @@
 import { Schema, model } from "mongoose";
+import type { GuildData } from "../types/types.d.ts";
 
-const guildSchema = new Schema(
-    {
-        _id: { type: String, required: true },
-        name: { type: String, required: true },
-        tempBanCategoryId: { type: String, required: true },
-        tempBanChannelId: { type: String, required: true },
-        tempBanRoleId: { type: String, required: true },
-        mutedRoleId: { type: String, required: true },
-        ticketCategoryId: { type: String, required: true },
-        ticketChannelId: { type: String, required: true },
-        ticketSupportRoleId: { type: String, required: true },
-        configured: { type: Boolean, default: false }
-    }
-)
+const guildSchema = new Schema<GuildData>({
+	_id: { type: String, required: true },
+	name: { type: String, required: true },
+	guildSetupData: {
+		timeOutCategory: { type: String, required: true },
+		timeOutRole: { type: String, required: true },
+		mutedRole: { type: String, required: true },
+		ticketCategory: { type: String, required: true },
+		ticketSupportRole: { type: String, required: true },
+		timeOutChannel: { type: String, required: true },
+		ticketChannel: { type: String, required: true },
+	},
+	configuredAt: { type: Number, required: true },
+	savedAt: { type: Number, required: true }
+});
 
-export default model('Guild', guildSchema)
+export const GuildModel = model<GuildData>("Guild", guildSchema);
