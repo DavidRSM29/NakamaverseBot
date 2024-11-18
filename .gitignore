@@ -1,5 +1,7 @@
 node_modules/
 .commandkit/
-dist/
+build/
+src/utils/logger/logs
 .env
 .devcontainer/devcontainer.json
+tsconfig.tsbuildinfo
