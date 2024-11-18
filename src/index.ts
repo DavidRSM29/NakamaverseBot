@@ -1,10 +1,9 @@
 import 'dotenv/config';
-
 import { Client, IntentsBitField } from 'discord.js';
 import { CommandKit } from 'commandkit';
-
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { initTasks } from './tasks/taskLoader.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -27,4 +26,6 @@ new CommandKit({
   bulkRegister: true,
 });
 
-client.login(process.env.TOKEN)
+await client.login(process.env.TOKEN);
+
+await initTasks(__dirname);
