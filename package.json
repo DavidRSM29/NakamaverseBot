@@ -1,10 +1,10 @@
 {
   "name": "nakamaversebot",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
-    "dev": "commandkit dev",
-    "build": "commandkit build",
-    "start": "commandkit start"
+    "dev": "node ./build/index.js",
+    "build": "node build.mjs",
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +15,14 @@
     "commandkit": "^0.1.10",
     "discord.js": "^14.16.1",
     "dotenv": "^16.4.5",
-    "mongoose": "^8.6.1"
+    "mongoose": "^8.6.1",
+    "node-cron": "^3.0.3",
+    "winston": "^3.15.0"
+  },
+  "devDependencies": {
+    "@types/node-cron": "^3.0.11",
+    "node-7z": "^3.0.0",
+    "prompt-sync": "^4.2.0",
+    "typescript": "^5.6.3"
   }
 }
